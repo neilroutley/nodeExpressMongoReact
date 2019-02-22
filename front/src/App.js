@@ -13,6 +13,10 @@ class App extends Component {
     };
   }
   componentDidMount() {
+    this.reloadData();
+  }
+
+  reloadData(){
     fetch("/api/getMessage")
       .then(res => res.json())
       .then(data => {
@@ -37,8 +41,8 @@ class App extends Component {
 
         {this.renderComments()}
 
-        <form action="/api/createMessage">
-          <input type="text" id="comment" />
+        <form action="/api/createMessage" method="POST">
+          <input type="text" name="text" />
         </form>
         <div>Working?!</div>
         <div>Made by Neil</div>
