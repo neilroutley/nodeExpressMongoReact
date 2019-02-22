@@ -1,25 +1,49 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 
 import "./App.css";
 
-class App extends Component {
+import Comment from "./Comment.js";
 
+class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      comments: []
+    };
+  }
   componentDidMount() {
     fetch("/api/getMessage")
-      .then( res => console.log("got data", res));
+      .then(res => res.json())
+      .then(data => {
+        console.log("got data!", data);
+        this.setState({
+          comments: data
+        });
+      });
   }
 
-  render(){
+  renderComments() {
+    return this.state.comments.map((c, i) => (
+      <Comment key={i++} comment={c} />
+    ));
+  }
+
+  render() {
     console.log("Rendering");
     return (
       <div className="App">
         <h1>Comments!</h1>
-        <div id="comments"></div>
+
+        {this.renderComments()}
+
         <form action="/api/createMessage">
-          <input type="text" id="comment"/>
+          <input type="text" id="comment" />
         </form>
+        <div>Working?!</div>
         <div>Made by Neil</div>
-      </div>);
+      </div>
+    );
   }
 }
 
